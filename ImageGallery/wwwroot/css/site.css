@@ -1,10 +1,30 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
+a.gallery-content {
+    padding: 24px;
+}
 
+.gallery-image {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 400px;
+    width: 400px;
+    position: center;
+}
+.gallery-image-container {
+    padding: 8px;
+    border-radius: 2px;
+    margin: 12px;
+    display: inline-block;
+    height: 420px;
+    width: 420px;
+    box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.5), 0px 10px 15px rgba(0, 0, 0, 1);
+}
 a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
 }
 
 /* Provide sufficient contrast against white background */
@@ -16,6 +36,11 @@ a {
   color: #fff;
   background-color: #1b6ec2;
   border-color: #1861ac;
+}
+
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {

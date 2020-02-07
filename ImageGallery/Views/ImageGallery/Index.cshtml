@@ -1,0 +1,22 @@
+﻿@model ImageGallery.Models.GalleryModel
+@{
+}
+<div class="container body-content">
+    <div class="row gallery-content">
+        @foreach (var Image in Model.Images)
+        {
+            <div class="gallery-image-container">
+                <div class="gallery-image" style="background-image:url(@Image.Url)"><span style="color:aqua">@Image.Title</span></div>
+                <ul>
+                    @foreach (var tag in Image.Tags)
+                    {
+                        <li>
+                            @tag.Description;
+                        </li>
+                    }
+                </ul>
+            </div>
+
+        }
+    </div>
+</div>

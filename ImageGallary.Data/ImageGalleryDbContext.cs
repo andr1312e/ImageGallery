@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ImageGallary.Data.Model;
+using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace ImageGallary.Data
@@ -9,5 +10,6 @@ namespace ImageGallary.Data
         {
         }
         public DbSet<GalleryImage> GalleryImages { set; get; }
+        public DbSet<Tag> ImageTags { set; get;  }
     }
 }

@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageGallery", "ImageGallery\ImageGallery.csproj", "{1350957C-8031-498B-B483-AAF671E4DD85}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageGallery", "ImageGallery\ImageGallery.csproj", "{1350957C-8031-498B-B483-AAF671E4DD85}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageGallary.Data", "ImageGallary.Data\ImageGallary.Data.csproj", "{80736F0E-B257-4637-BB44-B799855A2D13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageGallary.Data", "ImageGallary.Data\ImageGallary.Data.csproj", "{80736F0E-B257-4637-BB44-B799855A2D13}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageGalleryServises", "ImageGalleryServises\ImageGalleryServises.csproj", "{7296A284-B755-499C-954B-C93B5086968F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{80736F0E-B257-4637-BB44-B799855A2D13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80736F0E-B257-4637-BB44-B799855A2D13}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80736F0E-B257-4637-BB44-B799855A2D13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7296A284-B755-499C-954B-C93B5086968F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7296A284-B755-499C-954B-C93B5086968F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7296A284-B755-499C-954B-C93B5086968F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7296A284-B755-499C-954B-C93B5086968F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

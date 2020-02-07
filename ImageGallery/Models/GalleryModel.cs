@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using ImageGallary.Data.Model;
+using ImageGallery.Models;
+using System.Collections.Generic;
 
-namespace ImageGallery.Controllers
+namespace ImageGallery.Models
 {
-    internal class GalleryModel
+    public class GalleryModel
     {
-        public IEnumerable<Images> Images { get; set; }
+        public IEnumerable<GalleryImage> Images { get; set; }
         public string SearchQuery { set; get; }
     }
 }
