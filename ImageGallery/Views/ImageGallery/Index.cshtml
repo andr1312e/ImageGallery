@@ -5,18 +5,11 @@
     <div class="row gallery-content">
         @foreach (var Image in Model.Images)
         {
-            <div class="gallery-image-container">
-                <div class="gallery-image" style="background-image:url(@Image.Url)"><span style="color:aqua">@Image.Title</span></div>
-                <ul>
-                    @foreach (var tag in Image.Tags)
-                    {
-                        <li>
-                            @tag.Description;
-                        </li>
-                    }
-                </ul>
-            </div>
-
+        <div class="gallery-image-container">
+            <a asp-controller="ImageGallery" asp-action="Detail" asp-route-id="@Image.Id">
+                <div class="gallery-image" style="background-image:url(@Image.Url)"></div>
+            </a>
+        </div>
         }
     </div>
 </div>

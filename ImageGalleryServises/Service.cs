@@ -16,8 +16,10 @@ namespace ImageGalleryServises
         }
         IEnumerable<GalleryImage> IImage.GetAll()=>ImageGalleryDbContext.GalleryImages.Include(images => images.Tags);
 
-        GalleryImage IImage.GetById(int id) => ImageGalleryDbContext.GalleryImages.Find(id);
-
+        GalleryImage IImage.GetById(int id)
+        {
+            return ImageGalleryDbContext.GalleryImages.Include(images => images.Tags).Where(Image => Image.Id == id).First();
+        }
         IEnumerable<GalleryImage> IImage.GetByTag(string tag)=> ImageGalleryDbContext.GalleryImages.Include(images => images.Tags).Where(Image => Image.Tags.Any(tg => tg.Description == tag));
     }
 }
