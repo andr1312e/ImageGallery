@@ -8,6 +8,7 @@ namespace ImageGallary.Data
     {
         public ImageGalleryDbContext(DbContextOptions options) : base(options) 
         {
+            Database.EnsureCreated();
         }
         public DbSet<GalleryImage> GalleryImages { set; get; }
         public DbSet<Tag> ImageTags { set; get;  }

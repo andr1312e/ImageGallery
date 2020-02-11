@@ -22,7 +22,7 @@ namespace ImageGalleryServises
         }
         IEnumerable<GalleryImage> IImage.GetByTag(string tag)=> ImageGalleryDbContext.GalleryImages.Include(images => images.Tags).Where(Image => Image.Tags.Any(tg => tg.Description == tag));
 
-        public async void SetImage(string url, string title, string tags, string path)
+        public async void SetImage(string title, string tags, string path)
         {
             var Image = new GalleryImage
             {
@@ -30,7 +30,7 @@ namespace ImageGalleryServises
                 ImageCreated = DateTime.Now,
                 Tags = TagsFromStringParse(tags),
                 Id = LastId()+1,
-                Url = url,
+                Url = path,
             };
             ImageGalleryDbContext.Add(Image);
             await ImageGalleryDbContext.SaveChangesAsync();

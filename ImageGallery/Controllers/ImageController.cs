@@ -38,15 +38,15 @@ namespace ImageGallery.Controllers
 
             if (file != null)
             {
-                // путь к папке Files
-                string path = "/gallery/" + file.FileName;
+                // путь к папке 
+                string path = "\\gallery\\" + file.FileName;
                 var FileName = file.FileName.Trim('"');
-                // сохраняем файл в папку Files в каталоге wwwroot
+                // сохраняем файл в папку  в каталоге wwwroot
                 using (var fileStream = new System.IO.FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
                 {
                     await file.CopyToAsync(fileStream);
                 }
-                service.SetImage(file.FileName, title, Tags, path);
+                service.SetImage(title, Tags, _appEnvironment.WebRootPath+ path);
                 service.SaveChanges();
             }
             return RedirectToAction("Index", "Gallery");
