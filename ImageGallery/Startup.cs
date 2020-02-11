@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace ImageGallery
 {
@@ -34,7 +35,7 @@ namespace ImageGallery
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
             app.UseStatusCodePages();
             app.UseDeveloperExceptionPage();
@@ -44,13 +45,14 @@ namespace ImageGallery
             app.UseRouting();
 
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=ImageGallery}/{action=Index}/{id?}");
             });
+            logger.LogInformation("Processing request {0}");
+            logger.LogDebug($"Handled");
         }
     }
 }

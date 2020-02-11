@@ -10,5 +10,7 @@ namespace ImageGallary.Data
          IEnumerable<GalleryImage> GetAll();
          GalleryImage GetById(int id);
          IEnumerable<GalleryImage> GetByTag(string Tag);
+        void SetImage(string fileName, string title, string tags, string path);
+        void SaveChanges();
     }
 }
