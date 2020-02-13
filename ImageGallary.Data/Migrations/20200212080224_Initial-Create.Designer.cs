@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ImageGallary.Data.Migrations
 {
     [DbContext(typeof(ImageGalleryDbContext))]
-    [Migration("20200207102909_InitialCreate")]
+    [Migration("20200212080224_Initial-Create")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
