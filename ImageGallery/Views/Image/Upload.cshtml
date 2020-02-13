@@ -1,10 +1,12 @@
 ﻿@model ImageGallery.Models.UploadModel
+@using ImageGallery.Controllers
+@*@using (Html.BeginForm("UploadNewImageAsync", "Image", FormMethod.Post, new { enctype = "multipart/form-data" }))*@
 
+@Html.AntiForgeryToken()
 <div class="container body-content ">
     <div class="row upload-container">
         <div class="upload-form drop-shadow">
-            <form asp-action="UploadNewImage"
-                  method="post"
+            <form method="post" asp-controller="Image" asp-action="OnPost"
                   enctype="multipart/form-data"
                   id="upload-form">
                 <div class="form-group">
@@ -16,15 +18,20 @@
                     <input asp-for="Tags" class="form-control" />
                 </div>
                 <div>
-                    <div class="simbit">
-                        <label class="btn btn-outline-success btn-file">
-                            Brouse for Image
-                            <input type="file" id="file" name="file" style="display:none" />
-                        </label>
-                        <button type="submit" id="btn-upload" class="btn btn-outline-info">Simbit</button>
-                    </div>
+                    <label class="btn btn-file">
+                        <input type="file" name="uploadedFile" style="display:normal" />
+                    </label>
+                </div>
+                <div class="simbit">
+                    <label class="btn btn-outline-success btn-file">
+                        <input type="submit" id="btn-upload" class="btn btn-info" />
+                    </label>
+                </div>
+                <div>
+                    <button asp-controller="Image" asp-action="OnPost" type="submit" id="btn-upload" class="btn btn-outline-success">Simbit</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
