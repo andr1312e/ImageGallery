@@ -22,18 +22,18 @@ namespace ImageGalleryServises
         }
         IEnumerable<GalleryImage> IImage.GetByTag(string tag)=> ImageGalleryDbContext.GalleryImages.Include(images => images.Tags).Where(Image => Image.Tags.Any(tg => tg.Description == tag));
 
-        public async void SetImage(string title, string tags, string path)
+        public  void SetImage(string title, string tags, string path)
         {
-            var Image = new GalleryImage
+            GalleryImage Image = new GalleryImage
             {
                 Title = title,
                 ImageCreated = DateTime.Now,
                 Tags = TagsFromStringParse(tags),
-                Id = LastId()+1,
+                //Id = LastId()+1,
                 Url = path,
             };
             ImageGalleryDbContext.Add(Image);
-            await ImageGalleryDbContext.SaveChangesAsync();
+            ImageGalleryDbContext.SaveChanges();
         }
 
         private int LastId()
@@ -41,10 +41,6 @@ namespace ImageGalleryServises
             return (int)ImageGalleryDbContext.GalleryImages.Include(images => images.Tags).LongCount();
         }
 
-        public void SaveChanges()
-        {
-            
-        }
 
         private IEnumerable<Tag> TagsFromStringParse(string tags)
         {
