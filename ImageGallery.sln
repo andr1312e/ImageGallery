@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageGallery", "ImageGaller
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageGallary.Data", "ImageGallary.Data\ImageGallary.Data.csproj", "{80736F0E-B257-4637-BB44-B799855A2D13}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageGalleryServises", "ImageGalleryServises\ImageGalleryServises.csproj", "{7296A284-B755-499C-954B-C93B5086968F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageGalleryServises", "ImageGalleryServises\ImageGalleryServises.csproj", "{7296A284-B755-499C-954B-C93B5086968F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageGalleryUsers", "ImageGalleryUsers\ImageGalleryUsers.csproj", "{685ADD46-DB00-411D-9373-99D05054D239}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{7296A284-B755-499C-954B-C93B5086968F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7296A284-B755-499C-954B-C93B5086968F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7296A284-B755-499C-954B-C93B5086968F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{685ADD46-DB00-411D-9373-99D05054D239}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{685ADD46-DB00-411D-9373-99D05054D239}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{685ADD46-DB00-411D-9373-99D05054D239}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{685ADD46-DB00-411D-9373-99D05054D239}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

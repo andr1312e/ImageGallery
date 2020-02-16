@@ -4,14 +4,18 @@ using System.Linq;
 using System.Threading.Tasks;
 using ImageGallary.Data;
 using ImageGalleryServises;
+using ImageGalleryUsers.CustomIdentityApp.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using ImageGalleryUsers.Models;
+
 
 namespace ImageGallery
 {
@@ -30,6 +34,10 @@ namespace ImageGallery
             var config2 = Configuration.GetConnectionString("ImageGallery");
             services.AddMvc(options => options.EnableEndpointRouting = false);
             services.AddScoped<IImage, Service>();
+
+            services.AddIdentity<AppUser, IdentityRole>()
+                .AddEntityFrameworkStores<UserDbContext>().AddDefaultTokenProviders();
+
             services.AddDbContext<ImageGalleryDbContext>(options => options
             .UseSqlServer(Configuration.GetConnectionString("ImageGallery")));
         }
@@ -41,18 +49,20 @@ namespace ImageGallery
             app.UseDeveloperExceptionPage();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseAuthentication();
 
             app.UseRouting();
-
             app.UseAuthorization();
+
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=ImageGallery}/{action=Index}/{id?}");
             });
-            logger.LogInformation("Processing request {0}");
-            logger.LogDebug($"Handled");
+            //logger.LogInformation("Processing request {0}");
+            //logger.LogDebug($"Handled");
         }
     }
 }
