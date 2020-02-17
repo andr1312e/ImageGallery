@@ -10,5 +10,7 @@ namespace ImageGallary.Data.Model
         public DateTime ImageCreated { set; get; }
         public string Url { set; get; }
         public IEnumerable<Tag> Tags { set; get; }
+        public String UserName { set; get; }
+
     }
 }

@@ -12,7 +12,7 @@ namespace ImageGallery.Controllers
 {
     public class ImageGalleryController : Controller
     {
-        private readonly IImage _ImageService;
+        private IImage _ImageService;
         public ImageGalleryController(IImage service) => _ImageService = service;
         public IActionResult Index()
         {

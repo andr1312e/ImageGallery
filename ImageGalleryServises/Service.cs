@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace ImageGalleryServises
 {
-    public class Service : ImageGallary.Data.IImage
+    public class Service : IImage
     {
         private ImageGalleryDbContext ImageGalleryDbContext;
         public Service(ImageGalleryDbContext imageGalleryDb) 

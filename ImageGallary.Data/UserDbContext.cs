@@ -11,7 +11,6 @@ namespace ImageGalleryUsers.Models
     {
         public UserDbContext(DbContextOptions<UserDbContext> options) : base(options)
         {
-            Database.EnsureCreated();
         }
     }
 }
