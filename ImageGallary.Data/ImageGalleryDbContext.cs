@@ -1,5 +1,4 @@
 ﻿using ImageGallary.Data.Model;
-using ImageGalleryUsers.CustomIdentityApp.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;

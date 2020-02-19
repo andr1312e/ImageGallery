@@ -5,48 +5,27 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ImageGalleryUsers.Models;
 using Microsoft.AspNetCore.Identity;
-using ImageGalleryUsers.CustomIdentityApp.Models;
+using CustomIdentityApp.Models;
+using Microsoft.AspNetCore.Authorization;
+using ImageGallary.Data;
 
 namespace ImageGallery.Controllers
 {
+    [Authorize]
     public class AccountController : Controller
     {
-        private readonly UserManager<AppUser> _userManager;
-        private readonly SignInManager<AppUser> _signInManager;
-
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        [AllowAnonymous]
+        public IActionResult Login(string returnUrl)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-        }
-        [HttpGet]
-        public IActionResult Register()
-        {
+            ViewBag.returnUrl = returnUrl;
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Register(UserViewModel model)
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginModel details, string returnUrl)
         {
-            if (ModelState.IsValid)
-            {
-                AppUser user = new AppUser { Email = model.Email, UserName = model.Email};
-                // добавляем пользователя
-                var result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    // установка куки
-                    await _signInManager.SignInAsync(user, false);
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError(string.Empty, error.Description);
-                    }
-                }
-            }
-            return View(model);
+            return View(details);
         }
     }
 }

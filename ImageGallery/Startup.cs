@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CustomIdentityApp.Models;
 using ImageGallary.Data;
 using ImageGalleryServises;
-using ImageGalleryUsers.CustomIdentityApp.Models;
 using ImageGalleryUsers.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -15,6 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using ImageGallery.Infrastrucure;
 
 
 namespace ImageGallery
@@ -37,9 +38,18 @@ namespace ImageGallery
 
             services.AddDbContext<UserDbContext>(options => options
             .UseSqlServer(Configuration["Data:IdentityConnection:ConnectionString"]));
-
-            services.AddIdentity<AppUser, IdentityRole>()
-                .AddEntityFrameworkStores<UserDbContext>().AddDefaultTokenProviders();
+            services.AddTransient<IPasswordValidator<AppUser>, CustomPasswordValidation>();
+            services.AddTransient<IUserValidator<AppUser>, CustomUserValidation>();
+            services.AddIdentity<AppUser, IdentityRole>(options=> 
+            {
+                options.User.AllowedUserNameCharacters = "qwertyuiopasdfghjklzxcvbnm";
+                options.User.RequireUniqueEmail = true;
+                options.Password.RequiredLength = 3;
+                options.Password.RequiredUniqueChars = 0;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+            }).AddEntityFrameworkStores<UserDbContext>().AddDefaultTokenProviders();
             services.AddScoped<IImage, Service>();
             services.AddMvc(options => options.EnableEndpointRouting = false);
             services.AddMemoryCache();
