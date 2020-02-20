@@ -16,6 +16,12 @@ namespace ImageGallery.Controllers
     {
         private UserManager<AppUser> _userManager;
         private SignInManager<AppUser> _signInManager;
+        [Authorize]
+        public async Task<IActionResult> Logout() 
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "ImageGallery");
+        }
         public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
             _signInManager = signInManager;

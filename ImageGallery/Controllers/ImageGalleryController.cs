@@ -28,16 +28,27 @@ namespace ImageGallery.Controllers
         [Route("{id}/[controller]/[action]", Name = "Detail")]
         public IActionResult Detail(int id)
         {
+            var user = HttpContext.User;
             var image = _ImageService.GetById(id);
+            string userName="Аноним";
+            if (user != null)
+            {
+                userName = user.Identity.Name;
+            }
             var model = new GalleryOnePictureViewModel()
             {
                 Id = id,
                 DateTimeCreated = image.ImageCreated,
                 Title = image.Title,
                 Url = image.Url,
-                Tags=image.Tags.Select(tags=>tags.Description).ToList()
+                UserName=userName,
+                Tags =image.Tags.Select(tags=>tags.Description).ToList()
             };
             return View(model); 
         }
+        //private GetData(string actionName)
+        //{
+            
+        //}
     }
 }

@@ -12,5 +12,6 @@ namespace ImageGallery.Models
         public List<string> Tags { set; get; }
         public DateTime DateTimeCreated { set; get; }
         public string Url { set; get; }
+        public String UserName { set; get; }
     }
 }

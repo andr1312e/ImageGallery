@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using CustomIdentityApp.Models;
+using ImageGallary.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,8 +13,10 @@ namespace ImageGallery.Controllers
     public class RoleAdminController:Controller
     {
         private RoleManager<IdentityRole> roleManager;
-        public RoleAdminController(RoleManager<IdentityRole> _roleManager)
+        private UserManager<AppUser> userManager;
+        public RoleAdminController(RoleManager<IdentityRole> _roleManager, UserManager<AppUser> _userManager)
         {
+            userManager = _userManager;
             roleManager = _roleManager;
         }
         public ViewResult Index() => View(roleManager.Roles);
@@ -66,6 +70,74 @@ namespace ImageGallery.Controllers
                 ModelState.AddModelError("", "No role found");
             }
             return View("Index", roleManager.Roles);
+        }
+
+        public async Task<IActionResult> Edit(string id)
+        {
+            IdentityRole identityRole = await roleManager.FindByIdAsync(id);
+            if (identityRole != null)
+            {
+                List<AppUser> members = new List<AppUser>();
+                List<AppUser> nonmembers = new List<AppUser>();
+                if (userManager.Users.Count() > 0)
+                {
+                    foreach (var user in userManager.Users)
+                    {
+                        var list = await userManager.IsInRoleAsync(user, identityRole.Name) ? members : nonmembers;
+                        list.Add(user);
+                    }
+                }
+                return View(new ImageGallary.Data.RoleEditModel
+                {
+                    Role = identityRole,
+                    Members = members,
+                    NonMembers = nonmembers
+                });
+            }
+            else
+            {
+                return View();
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(RoleModificationModel model)
+        {
+            IdentityResult result;
+            if (ModelState.IsValid)
+            {
+                foreach (string userId in model.IdsToAdd ?? new string[] { })
+                {
+                    AppUser user = await userManager.FindByIdAsync(userId);
+                    if (user != null)
+                    {
+                        result = await userManager.AddToRoleAsync(user, model.RoleName);
+                        if (!result.Succeeded)
+                        {
+                            AddErrorsFromResult(result);
+                        }
+                    }
+                }
+                foreach (string userId in model.IdsToDelte ?? new string[] { })
+                {
+                    AppUser user = await userManager.FindByIdAsync(userId);
+                    if (user != null)
+                    {
+                        result = await userManager.RemoveFromRoleAsync(user, model.RoleName);
+                        if (!result.Succeeded)
+                        {
+                            AddErrorsFromResult(result);
+                        }
+                    }
+                }
+            }
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return await Edit(model.RoleId);
+            }
         }
     }
 }
