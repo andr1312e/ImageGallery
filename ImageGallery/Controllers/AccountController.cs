@@ -14,6 +14,13 @@ namespace ImageGallery.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        private UserManager<AppUser> _userManager;
+        private SignInManager<AppUser> _signInManager;
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        {
+            _signInManager = signInManager;
+            _userManager = userManager;
+        }
         [AllowAnonymous]
         public IActionResult Login(string returnUrl)
         {
@@ -25,6 +32,22 @@ namespace ImageGallery.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginModel details, string returnUrl)
         {
+            if (ModelState.IsValid)
+            {
+                AppUser user = await _userManager.FindByEmailAsync(details.Email);
+                if (user != null)
+                {
+                    Microsoft.AspNetCore.Identity.SignInResult signInResult = await _signInManager.PasswordSignInAsync(user, details.Password, false, false);
+                    if (signInResult.Succeeded)
+                    {
+                        return Redirect(returnUrl ?? "/");
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError(nameof(LoginModel.Email), "Invalid email");
+                }
+            }
             return View(details);
         }
     }

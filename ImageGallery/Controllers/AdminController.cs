@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using CustomIdentityApp.Models;
 using ImageGalleryUsers.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Web;
 
 namespace ImageGallery.Controllers
 {
@@ -28,7 +30,9 @@ namespace ImageGallery.Controllers
         {
             return View(_userManager.Users);
         }
+        public ViewResult Create() => View();
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Create(UserViewModel model)
         {
             if (ModelState.IsValid)

@@ -19,7 +19,7 @@ namespace ImageGallery.Infrastrucure
                     Code="PasswordContainsName", Description="Password can not contains name"
                 });
             }
-            if ((password.ToLower().Contains(user.Email.ToLower()))
+            if ((password.ToLower().Contains(user.Email.ToLower())))
             {
                 errors.Add(new IdentityError
                 {

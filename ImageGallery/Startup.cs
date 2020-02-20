@@ -73,7 +73,7 @@ namespace ImageGallery
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=ImageGallery}/{action=Index}/{id?}");
+                    pattern: "{controller=Admin}/{action=Index}/{id?}");
             });
             //logger.LogInformation("Processing request {0}");
             //logger.LogDebug($"Handled");
