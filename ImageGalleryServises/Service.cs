@@ -22,12 +22,15 @@ namespace ImageGalleryServises
         }
         IEnumerable<GalleryImage> IImage.GetByTag(string tag)=> ImageGalleryDbContext.GalleryImages.Include(images => images.Tags).Where(Image => Image.Tags.Any(tg => tg.Description == tag));
 
-        public  void SetImage(string title, string tags, string path)
+        IEnumerable<GalleryImage> IImage.GetByUserName(string CurrentUserName) => ImageGalleryDbContext.GalleryImages.Include(images => images.Tags).Where(Image=>Image.UserName==CurrentUserName);
+
+        public  void SetImage(string title, string tags, string path, string user)
         {
             GalleryImage Image = new GalleryImage
             {
                 Title = title,
                 ImageCreated = DateTime.Now,
+                UserName = user,
                 Tags = TagsFromStringParse(tags),
                 //Id = LastId()+1,
                 Url = path,

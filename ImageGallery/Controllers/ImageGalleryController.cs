@@ -7,6 +7,8 @@ using ImageGallery.Models;
 using ImageGallary.Data.Model;
 using ImageGallary.Data.Data;
 using ImageGallary.Data;
+using Microsoft.AspNetCore.Identity;
+using CustomIdentityApp.Models;
 
 namespace ImageGallery.Controllers
 {
@@ -30,10 +32,11 @@ namespace ImageGallery.Controllers
         {
             var user = HttpContext.User;
             var image = _ImageService.GetById(id);
-            string userName="Аноним";
+            string userName = "Аноним";
             if (user != null)
             {
-                userName = user.Identity.Name;
+                if (user.Identity.Name == image.UserName)
+                    userName = user.Identity.Name;
             }
             var model = new GalleryOnePictureViewModel()
             {
@@ -41,14 +44,20 @@ namespace ImageGallery.Controllers
                 DateTimeCreated = image.ImageCreated,
                 Title = image.Title,
                 Url = image.Url,
-                UserName=userName,
+                UserName= userName,
                 Tags =image.Tags.Select(tags=>tags.Description).ToList()
             };
             return View(model); 
         }
-        //private GetData(string actionName)
-        //{
-            
-        //}
+        public IActionResult CurrentUserImages(string UserName)
+        {
+            GalleryModel model = new GalleryModel()
+            {
+                Images = _ImageService.GetByUserName(UserName),
+                SearchQuery = ""
+
+            };
+            return View("Index",model);
+        }
     }
 }

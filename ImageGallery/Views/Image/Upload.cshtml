@@ -1,9 +1,9 @@
 ﻿@model ImageGallery.Models.UploadModel
 @using ImageGallery.Controllers
-
+<div class="bg-primary m-1 p-1 text-white"><h4>Upload new image</h4></div>
 <div class="container body-content ">
-    <div class="row upload-container">
-        <div class="upload-form drop-shadow">
+    <div class="">
+        <div class=" ">
             <form asp-action="AddFile" asp-controller="Image" method="post" enctype="multipart/form-data">
             <div class="form-group">
             <label asp-for="Title"></label>
@@ -15,7 +15,7 @@
         </div>
             <div>
             <label class="btn btn-file">
-                <input type="file" name="uploadedFile" id="uploadedFile" style="display:normal" />
+                <input type="file" name="uploadedFile" id="uploadedFile" style="display: marker" />
             </label>
         </div>
         <div class="simbit">
@@ -23,25 +23,10 @@
                 <input type="submit" id="btn-upload" class="btn btn-info" />
             </label>
         </div>
-        <div>
-            <button asp-controller="ImageController" asp-action="OnPost" type="submit" id="btn-upload" class="btn btn-outline-success">Simbit</button>
-        </div>
-            <input type="file" name="uploadedFile" /><br>
-            <input type="submit" value="Загрузить" />
+        @*<div>
+            <button asp-controller="ImageController" asp-action="AddFile" type="submit" id="btn-upload" class="btn btn-outline-success">Simbit</button>
+        </div>*@
         </form>
-
-            @*<form asp-action="AddFile" asp-controller="Image" method="post" enctype="multipart/form-data">
-                <p>
-                    <label>Аватар</label>
-                    <input name="uploadedFile" type="file" class="form-control" />
-                </p>
-                <p>
-                    <input type="submit" value="Добавить" />
-                </p>
-            </form>*@
-
-
-
         </div>
     </div>
 </div>

@@ -24,6 +24,7 @@ namespace ImageGallery.Controllers
         //private readonly ILogger logger;
         IWebHostEnvironment _appEnvironment;
         //IFormFile _uploadedFile;
+        string user; 
 
         public BufferedSingleFileUploadDb FileUpload { set; get; }
         public ImageController(IImage _service, IWebHostEnvironment appEnvironment/*, IFormFile uploadedFile*/)
@@ -48,6 +49,7 @@ namespace ImageGallery.Controllers
         [HttpPost]
         public async Task<IActionResult> AddFile([FromForm] string title, [FromForm] string Tags, IFormFile uploadedFile)
         {
+            user = HttpContext.User.Identity.Name;
             var content = ContentDispositionHeaderValue.Parse(uploadedFile.ContentDisposition);
             if (uploadedFile != null)
             {
@@ -57,9 +59,9 @@ namespace ImageGallery.Controllers
                 {
                     await uploadedFile.CopyToAsync(fileStream);
                 }
-                service.SetImage("Lada", "Sedan", path);
+                service.SetImage(title, Tags, path, user);
             }
-            return RedirectToAction("Index", "Gallery");
+            return RedirectToAction("Index", "ImageGallery");
         }
     }  
 }
