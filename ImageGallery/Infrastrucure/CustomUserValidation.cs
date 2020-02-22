@@ -11,7 +11,7 @@ namespace ImageGallery.Infrastrucure
     {
         public Task<IdentityResult> ValidateAsync(UserManager<AppUser> manager, AppUser user)
         {
-            if (user.Email.ToLower().EndsWith("@examle.com")) 
+            if (!user.Email.ToLower().EndsWith("@mail.com")) 
             {
                 return Task.FromResult(IdentityResult.Success);
             }
