@@ -17,10 +17,10 @@ namespace ImageGallery
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
+            Host.CreateDefaultBuilder(args).UseDefaultServiceProvider(options => options.ValidateScopes = false)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                }).UseDefaultServiceProvider(options=>options.ValidateScopes=false);
+                });
     }
 }

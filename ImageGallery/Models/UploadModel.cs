@@ -12,6 +12,5 @@ namespace ImageGallery.Models
         public string Title { set; get; }
         public string Tags { set; get; }
         public IFormFile uploadedFile { set; get; }
-        public byte[] content { set; get; }
     }
 }

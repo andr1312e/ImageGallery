@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageGallery", "ImageGallery\ImageGallery.csproj", "{1350957C-8031-498B-B483-AAF671E4DD85}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageGallary.Data", "ImageGallary.Data\ImageGallary.Data.csproj", "{80736F0E-B257-4637-BB44-B799855A2D13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageGallery.Data", "ImageGallary.Data\ImageGallery.Data.csproj", "{80736F0E-B257-4637-BB44-B799855A2D13}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageGalleryServises", "ImageGalleryServises\ImageGalleryServises.csproj", "{7296A284-B755-499C-954B-C93B5086968F}"
 EndProject

@@ -56,7 +56,6 @@ namespace ImageGallery
             services.AddSession();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
             app.UseStatusCodePages();
@@ -64,19 +63,15 @@ namespace ImageGallery
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseAuthentication();
-
             app.UseRouting();
             app.UseAuthorization();
-
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Admin}/{action=Index}/{id?}");
+                    pattern: "{controller=ImageGallery}/{action=Index}/{id?}");
             });
-            //logger.LogInformation("Processing request {0}");
-            //logger.LogDebug($"Handled");
+            UserDbContext.CreateAdminAccount(app.ApplicationServices, Configuration).Wait();
         }
     }
 }
