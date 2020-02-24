@@ -11,6 +11,8 @@ namespace ImageGallary.Data
          GalleryImage GetById(int id);
          IEnumerable<GalleryImage> GetByTag(string Tag);
         IEnumerable<GalleryImage> GetByUserName(string CurrentUserName);
+        void Delete(GalleryImage img);
+        int LastId();
         void SetImage(string title, string tags, string path, string user);
     }
 }

@@ -26,11 +26,11 @@ namespace ImageGallery.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
         }
-        public ViewResult Index()
+        public IActionResult Index()
         {
             return View(_userManager.Users);
         }
-        public ViewResult Create() => View();
+        public IActionResult Create() => View();
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Create(UserViewModel model)
@@ -88,7 +88,6 @@ namespace ImageGallery.Controllers
             }
         }
 
-        [HttpPost]
         public async Task<IActionResult> Edit(string id)
         {
             AppUser user = await _userManager.FindByIdAsync(id);

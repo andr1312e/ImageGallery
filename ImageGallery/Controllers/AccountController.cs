@@ -33,6 +33,19 @@ namespace ImageGallery.Controllers
             ViewBag.returnUrl = returnUrl;
             return View();
         }
+        [Authorize]
+        public async Task<IActionResult> Edit(string name)
+        {
+                AppUser user = await _userManager.FindByNameAsync(name);
+                if (user != null)
+                {
+                    return View(user);
+                }
+                else
+                {
+                    return RedirectToAction("ImageGallery","Index");
+                }
+        }
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]

@@ -18,7 +18,14 @@ namespace ImageGalleryServises
 
         GalleryImage IImage.GetById(int id)
         {
-            return ImageGalleryDbContext.GalleryImages.Include(images => images.Tags).Where(Image => Image.Id == id).First();
+            try
+            {
+                return ImageGalleryDbContext.GalleryImages.Include(images => images.Tags).Where(Image => Image.Id == id).First();
+            }
+            catch (System.InvalidOperationException)
+            {
+                return null;
+            }
         }
         IEnumerable<GalleryImage> IImage.GetByTag(string tag)=> ImageGalleryDbContext.GalleryImages.Include(images => images.Tags).Where(Image => Image.Tags.Any(tg => tg.Description == tag));
 
@@ -32,14 +39,17 @@ namespace ImageGalleryServises
                 ImageCreated = DateTime.Now,
                 UserName = user,
                 Tags = TagsFromStringParse(tags),
-                //Id = LastId()+1,
                 Url = path,
             };
             ImageGalleryDbContext.Add(Image);
             ImageGalleryDbContext.SaveChanges();
         }
-
-        private int LastId()
+        public void Delete(GalleryImage img) 
+        {
+            ImageGalleryDbContext.GalleryImages.Remove(img);
+            ImageGalleryDbContext.SaveChanges();
+        }
+        public int LastId()
         {
             return (int)ImageGalleryDbContext.GalleryImages.Include(images => images.Tags).LongCount();
         }

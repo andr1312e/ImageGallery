@@ -1,15 +1,22 @@
 ﻿@model ImageGallery.Models.GalleryModel
 @{
 }
+@if (Model.Images.Count() == 0)
+{
+    <div class="text-left">
+        <label>No images</label>
+    </div>
+    <button class="btn btn-primary" asp-action="Upload" asp-controller="Image">Let's upload new image</button>
+}
 <div class="container body-content">
     <div class="row gallery-content">
         @foreach (var Image in Model.Images)
         {
-        <div class="gallery-image-container">
-            <a asp-controller="ImageGallery" asp-action="Detail" asp-route-id="@Image.Id">
-                <div class="gallery-image" style="background-image:url(@Image.Url)"></div>
-            </a>
-        </div>
+            <div class="gallery-image-container">
+                <a asp-controller="ImageGallery" asp-action="Detail" asp-route-id="@Image.Id">
+                    <div class="gallery-image" style="background-image:url(@Image.Url)"></div>
+                </a>
+            </div>
         }
     </div>
 </div>

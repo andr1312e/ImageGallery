@@ -50,10 +50,10 @@ namespace ImageGallery.Controllers
         public async Task<IActionResult> AddFile([FromForm] string title, [FromForm] string Tags, IFormFile uploadedFile)
         {
             user = HttpContext.User.Identity.Name;
-            var content = ContentDispositionHeaderValue.Parse(uploadedFile.ContentDisposition);
-            if (uploadedFile != null)
+            string type = uploadedFile.ContentType.Substring(0, uploadedFile.ContentType.IndexOf('/'));
+            if (uploadedFile != null&&type=="image")
             {
-                string path = "/gallery/" + uploadedFile.FileName;
+                string path = "/gallery/" + (service.LastId()+1).ToString()+"."+uploadedFile.ContentType.Substring((uploadedFile.ContentType.IndexOf('/')+1), uploadedFile.ContentType.Length- uploadedFile.ContentType.IndexOf('/')-1);
                 var FileName = uploadedFile.FileName.Trim('"');
                 using (var fileStream = new System.IO.FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
                 {
@@ -62,6 +62,18 @@ namespace ImageGallery.Controllers
                 service.SetImage(title, Tags, path, user);
             }
             return RedirectToAction("Index", "ImageGallery");
+        }
+        public async Task<IActionResult> Delete(int id) 
+        {
+            var path = service.GetById(id).Url;
+            System.IO.File.Delete(_appEnvironment.WebRootPath + path);
+            service.Delete(service.GetById(id));
+            return RedirectToAction("Index", "ImageGallery");
+        }
+
+        public async Task<IActionResult> UpdateImage(int id)
+        {
+            return View(service.GetById(id));
         }
     }  
 }

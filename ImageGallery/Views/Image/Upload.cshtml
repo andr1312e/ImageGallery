@@ -2,8 +2,6 @@
 @using ImageGallery.Controllers
 <div class="bg-primary m-1 p-1 text-white"><h4>Upload new image</h4></div>
 <div class="container body-content ">
-    <div class="">
-        <div class=" ">
             <form asp-action="AddFile" asp-controller="Image" method="post" enctype="multipart/form-data">
             <div class="form-group">
             <label asp-for="Title"></label>
@@ -19,7 +17,7 @@
             </label>
         </div>
         <div class="simbit">
-            <label class="btn btn-outline-success btn-file">
+            <label class="btn  btn-file">
                 <input type="submit" id="btn-upload" class="btn btn-info" />
             </label>
         </div>
@@ -27,7 +25,5 @@
             <button asp-controller="ImageController" asp-action="AddFile" type="submit" id="btn-upload" class="btn btn-outline-success">Simbit</button>
         </div>*@
         </form>
-        </div>
-    </div>
 </div>
 

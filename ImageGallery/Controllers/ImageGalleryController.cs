@@ -32,22 +32,26 @@ namespace ImageGallery.Controllers
         {
             var user = HttpContext.User;
             var image = _ImageService.GetById(id);
-            string userName = "Аноним";
-            if (user != null)
+            if (image != null)
             {
-                if (user.Identity.Name == image.UserName)
-                    userName = user.Identity.Name;
+                string userName = "Аноним";
+                if (user != null)
+                {
+                    if (user.Identity.Name == image.UserName)
+                        userName = user.Identity.Name;
+                }
+                var model = new GalleryOnePictureViewModel()
+                {
+                    Id = id,
+                    DateTimeCreated = image.ImageCreated,
+                    Title = image.Title,
+                    Url = image.Url,
+                    UserName = userName,
+                    Tags = image.Tags.Select(tags => tags.Description).ToList()
+                };
+                return View(model);
             }
-            var model = new GalleryOnePictureViewModel()
-            {
-                Id = id,
-                DateTimeCreated = image.ImageCreated,
-                Title = image.Title,
-                Url = image.Url,
-                UserName= userName,
-                Tags =image.Tags.Select(tags=>tags.Description).ToList()
-            };
-            return View(model); 
+            return RedirectToAction("Index", "ImageGallery");
         }
         public IActionResult CurrentUserImages(string UserName)
         {
