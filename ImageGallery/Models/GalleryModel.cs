@@ -7,6 +7,5 @@ namespace ImageGallery.Models
     public class GalleryModel
     {
         public IEnumerable<GalleryImage> Images { get; set; }
-        public string SearchQuery { set; get; }
     }
 }

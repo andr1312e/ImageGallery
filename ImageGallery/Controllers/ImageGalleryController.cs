@@ -22,8 +22,6 @@ namespace ImageGallery.Controllers
             GalleryModel model = new GalleryModel()
             {
                 Images = ImageList,
-                SearchQuery=""
-
             };
             return View(model);
         }
@@ -40,14 +38,18 @@ namespace ImageGallery.Controllers
                     if (user.Identity.Name == image.UserName)
                         userName = user.Identity.Name;
                 }
-                var model = new GalleryOnePictureViewModel()
+                string ss;
+                var c = image.Tags.Aggregate("", (str, obj) => str + obj.Description + ",");
+                ss = string.Join(",", image.Tags.ToList());
+               
+                var model = new GalleryImage()
                 {
                     Id = id,
-                    DateTimeCreated = image.ImageCreated,
+                    ImageCreated = image.ImageCreated,
                     Title = image.Title,
                     Url = image.Url,
                     UserName = userName,
-                    Tags = image.Tags.Select(tags => tags.Description).ToList()
+                    Tags = image.Tags
                 };
                 return View(model);
             }
@@ -58,10 +60,16 @@ namespace ImageGallery.Controllers
             GalleryModel model = new GalleryModel()
             {
                 Images = _ImageService.GetByUserName(UserName),
-                SearchQuery = ""
-
             };
             return View("Index",model);
+        }
+        public IActionResult CurrentTagImages(string tag)
+        {
+            GalleryModel model = new GalleryModel()
+            {
+                Images = _ImageService.GetByTag(tag),
+            };
+            return View("Index", model);
         }
     }
 }

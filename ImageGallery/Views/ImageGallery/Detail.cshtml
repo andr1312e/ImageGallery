@@ -1,4 +1,4 @@
-﻿@model ImageGallery.Models.GalleryOnePictureViewModel
+﻿@model ImageGallary.Data.Model.GalleryImage
         
     <div class="container body-content">
         <div class="row image-detail-container">
@@ -10,13 +10,20 @@
                 <span>Author : @Model.UserName &nbsp </span>
             }
             <span>Title :  @Model.Title &nbsp</span>
-            <span>Upload :  @Model.DateTimeCreated</span>
+            <span>Upload :  @Model.ImageCreated &nbsp</span
+            <span> 
+            Tags:
+             @foreach (var tag in Model.Tags.ToList())
+            {
+                <a asp-action="CurrentTagImages" asp-controller="ImageGallery" asp-route-tag="@tag.Description">@tag.Description &nbsp</a>
+            }
+            </span>
         </div>
     </div>        
             <a class="btn btn-dark btn-primary" asp-controller="ImageGallery" asp-action="Index">Return back</a>
             @if (Model.UserName != null && Model.UserName != "Аноним")
             { 
             
-                <button class="btn btn-warning " asp-controller="ImageGallery" asp-action="Edit">Edit</button>
+<a class="btn btn-warning " asp-controller="Image" asp-action="UpdateImage" asp-route-id="@Model.Id">Update Image</a>
             <a class="btn btn-danger" asp-controller="Image" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
             }
