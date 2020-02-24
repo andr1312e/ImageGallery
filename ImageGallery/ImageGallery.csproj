@@ -25,7 +25,7 @@
   <ItemGroup>
     <DotNetCliToolReference Include="BundlerMinifier.Core" Version="2.6.362" />
     <None Include="..\.editorconfig" Link=".editorconfig" />
-    <ProjectReference Include="..\ImageGallary.Data\ImageGallary.Data.csproj" />
+    <ProjectReference Include="..\ImageGallary.Data\ImageGallery.Data.csproj" />
     <ProjectReference Include="..\ImageGalleryServises\ImageGalleryServises.csproj" />
   </ItemGroup>
 

@@ -17,10 +17,10 @@
                 <td>@user.Email</td>
                 <td>
                     <form asp-action="Delete" asp-route-id="@user.Id" method="post">
-                        <a class="btn btn-primary btn-sm" asp-action="Edit" 
+                        <a class="btn btn-primary btn-sm" asp-action="Edit"
                            asp-route-id="@user.Id">Edit</a>
-                        <button type="submit"
-                                class="btn btn-sm btn-danger">Delete</button>
+                        <button formmethod="post" class="btn btn-primary btn-sm" asp-action="Delete"
+                           asp-route-id="@user.Id">Delete</button>
                     </form>
                 </td>
             </tr>

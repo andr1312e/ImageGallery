@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ImageGallery</title>
+    <title>@ViewData["Title"]  ImageGallery</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
@@ -32,10 +32,13 @@
                             <a class="nav-link" asp-area="" asp-controller="Image" asp-action="Upload">Upload new Image</a>
                         </li>
 
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">View</a>
+                            </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">View</a>
-                        </li>
+                        }
                     </ul>
                 </div>
                 <div class="collapse navbar-collapse">

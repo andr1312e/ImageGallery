@@ -8,9 +8,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Web;
+using Microsoft.AspNetCore.Authentication;
 
 namespace ImageGallery.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
@@ -60,7 +62,7 @@ namespace ImageGallery.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
-            AppUser user = await _userManager.FindByNameAsync(id);
+            AppUser user = await _userManager.FindByIdAsync(id);
             if (user != null)
             {
                 IdentityResult result = await _userManager.DeleteAsync(user);

@@ -15,15 +15,15 @@
             Tags:
              @foreach (var tag in Model.Tags.ToList())
             {
-                <a asp-action="CurrentTagImages" asp-controller="ImageGallery" asp-route-tag="@tag.Description">@tag.Description &nbsp</a>
+                <a asp-action="CurrentTagImages" asp-controller="ImageGallery" asp-route-tag="@tag.Description">@tag.Description</a><a>&nbsp</a>
             }
             </span>
         </div>
     </div>        
             <a class="btn btn-dark btn-primary" asp-controller="ImageGallery" asp-action="Index">Return back</a>
-            @if (Model.UserName != null && Model.UserName != "Аноним")
+            @if ((Model.UserName != null && Model.UserName != "Аноним"))
             { 
             
-<a class="btn btn-warning " asp-controller="Image" asp-action="UpdateImage" asp-route-id="@Model.Id">Update Image</a>
+            <a class="btn btn-warning " asp-controller="Image" asp-action="UpdateImage" asp-route-id="@Model.Id">Update Image</a>
             <a class="btn btn-danger" asp-controller="Image" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
             }

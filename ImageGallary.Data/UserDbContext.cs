@@ -28,7 +28,17 @@ namespace ImageGalleryUsers.Models
             {
                 if (await roleManager.FindByNameAsync(role) == null)
                 {
-                    //await roleManager.
+                    await roleManager.CreateAsync(new IdentityRole(role));
+                }
+                AppUser user = new AppUser
+                {
+                    UserName=username,
+                    Email=email
+                };
+                IdentityResult result = await userManager.CreateAsync(user, password);
+                if(result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(user, role);
                 }
             }
         }
