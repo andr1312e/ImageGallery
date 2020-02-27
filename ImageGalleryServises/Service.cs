@@ -49,6 +49,16 @@ namespace ImageGalleryServises
             ImageGalleryDbContext.GalleryImages.Remove(img);
             ImageGalleryDbContext.SaveChanges();
         }
+        public void Rename(GalleryImage img, string name)
+        {
+            img.Title = name;
+            ImageGalleryDbContext.SaveChanges();
+        }
+        public void EditImage(GalleryImage img, string url)
+        {
+            img.Url = url;
+            ImageGalleryDbContext.SaveChanges();
+        }
         public int LastId()
         {
             return (int)ImageGalleryDbContext.GalleryImages.Include(images => images.Tags).LongCount();

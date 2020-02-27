@@ -82,20 +82,24 @@ namespace ImageGallery.Controllers
             var model = service.GetById(id);
             if (title != null && title!=model.Title)
             {
-                model.Title = title;
+                service.Rename(model, title);
             }
-            string type = uploadedFile.ContentType.Substring(0, uploadedFile.ContentType.IndexOf('/'));
-            if (uploadedFile != null && type == "image")
+
+            if (uploadedFile != null)
             {
-                var oldpath = service.GetById(id).Url;
-                var FileName = uploadedFile.FileName.Trim('"');
-                System.IO.File.Delete(_appEnvironment.WebRootPath + oldpath);
-                string path = "/gallery/" + (id + 1).ToString() + "." + uploadedFile.ContentType.Substring((uploadedFile.ContentType.IndexOf('/') + 1), uploadedFile.ContentType.Length - uploadedFile.ContentType.IndexOf('/') - 1);
-                using (var fileStream = new System.IO.FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                string type = uploadedFile.ContentType.Substring(0, uploadedFile.ContentType.IndexOf('/'));
+                if (type == "image")
                 {
-                    await uploadedFile.CopyToAsync(fileStream);
+                    var oldpath = service.GetById(id).Url;
+                    var FileName = uploadedFile.FileName.Trim('"');
+                    System.IO.File.Delete(_appEnvironment.WebRootPath + oldpath);
+                    string path = "/gallery/" + (id + 1).ToString() + "." + uploadedFile.ContentType.Substring((uploadedFile.ContentType.IndexOf('/') + 1), uploadedFile.ContentType.Length - uploadedFile.ContentType.IndexOf('/') - 1);
+                    using (var fileStream = new System.IO.FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                    {
+                        await uploadedFile.CopyToAsync(fileStream);
+                    }
+                    service.EditImage(model, path);
                 }
-                model.Url = path;
             }
             return RedirectToAction("Index", "ImageGallery");
         }
