@@ -13,6 +13,8 @@ namespace ImageGallary.Data
         IEnumerable<GalleryImage> GetByUserName(string CurrentUserName);
         void Delete(GalleryImage img);
         int LastId();
+        public void EditImage(GalleryImage img, string url);
+        public void Rename(GalleryImage img, string name);
         void SetImage(string title, string tags, string path, string user);
     }
 }

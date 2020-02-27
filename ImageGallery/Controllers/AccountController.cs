@@ -36,6 +36,10 @@ namespace ImageGallery.Controllers
         [AllowAnonymous]
         public IActionResult Login(string returnUrl)
         {
+            if (returnUrl!=null&&returnUrl.Contains("FogotPassword"))
+            {
+                return RedirectToAction("FogotPassword");
+            }
             ViewBag.returnUrl = returnUrl;
             return View();
         }
@@ -115,6 +119,10 @@ namespace ImageGallery.Controllers
                     {
                         return Redirect(returnUrl ?? "/");
                     }
+                    else
+                    {
+                        ModelState.AddModelError("", "Invalid password");
+                    }
                 }
                 else
                 {
@@ -122,6 +130,10 @@ namespace ImageGallery.Controllers
                 }
             }
             return View(details);
+        }
+        public async Task<IActionResult> FogotPassword(string Name, string Email, string Password)
+        {
+            return View();
         }
     }
 }
