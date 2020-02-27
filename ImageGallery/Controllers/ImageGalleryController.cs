@@ -35,8 +35,12 @@ namespace ImageGallery.Controllers
                 string userName = "Аноним";
                 if (user != null)
                 {
-                    if ((user.Identity.Name == image.UserName)||user.IsInRole("Admin"))
+                    if (user.Identity.Name == image.UserName)
                         userName = image.UserName;
+                }
+                if (user.IsInRole("Admin"))
+                {
+                    userName = "Admin";
                 }
                 string ss;
                 var c = image.Tags.Aggregate("", (str, obj) => str + obj.Description + ",");

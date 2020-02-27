@@ -43,7 +43,7 @@
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                            @if (User.Identity.Name != null)
+                            @if (User.Identity.Name != null )
                             {
                             <a class="nav-link" asp-controller="Account" asp-action="Edit" asp-route-name="@User.Identity.Name">Hello @User.Identity.Name</a>
                             <a class="nav-link" asp-controller="ImageGallery" asp-action="CurrentUserImages" asp-route-UserName="@User.Identity.Name">My Images</a>
