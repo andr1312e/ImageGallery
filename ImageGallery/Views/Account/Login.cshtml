@@ -3,7 +3,7 @@
 
 <div class="bg-primary m-1 p-1 text-white"><h4>Log in</h4></div>
 <div class="text-danger" asp-validation-summary="All"></div>
-<form asp-action="Login" method="post">
+<form asp-action="Login">
     <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
     <div class="form-group">
         <label asp-for="Email"></label>
@@ -13,5 +13,6 @@
         <label asp-for="Password"></label>
         <input asp-for="Password" class="form-control" />
     </div>
-    <button class="btn btn-primary" type="submit">Log in</button>
+    <button class="btn btn-primary" formmethod="post" type="submit">Log in</button>
+    <button class="btn btn-secondary" asp-action="FogotPassword" type="submit">Fogot Password</button>
 </form>
