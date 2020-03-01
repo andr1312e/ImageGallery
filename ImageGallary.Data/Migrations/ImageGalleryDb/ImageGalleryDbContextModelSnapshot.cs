@@ -4,16 +4,14 @@ using ImageGallary.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace ImageGallary.Data.Migrations
+namespace ImageGallery.Data.Migrations.ImageGalleryDb
 {
     [DbContext(typeof(ImageGalleryDbContext))]
-    [Migration("20200217062237_InitialCreate")]
-    partial class InitialCreate
+    partial class ImageGalleryDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

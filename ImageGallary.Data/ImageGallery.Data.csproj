@@ -24,8 +24,12 @@
     <Compile Remove="Migrations\20200217012302_InitialCreate.Designer.cs" />
     <Compile Remove="Migrations\20200217043720_InitialCreate.cs" />
     <Compile Remove="Migrations\20200217043720_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20200217062237_InitialCreate.cs" />
+    <Compile Remove="Migrations\20200217062237_InitialCreate.Designer.cs" />
     <Compile Remove="Migrations\UserDb\20200217010945_InitialCreate.cs" />
     <Compile Remove="Migrations\UserDb\20200217010945_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\UserDb\20200217062546_InitialCreate.cs" />
+    <Compile Remove="Migrations\UserDb\20200217062546_InitialCreate.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,6 +41,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\UserDb\" />
   </ItemGroup>
 
 </Project>

@@ -41,25 +41,28 @@ namespace ImageGallery.Controllers
         [HttpPost]
         public async Task<IActionResult> AddFile([FromForm] string title, [FromForm] string Tags, IFormFile uploadedFile)
         {
-            if (title == null)
+            if (uploadedFile != null)
             {
-                title = "No name";
-            }
-            if (Tags == null)
-            {
-                Tags = "";
-            }
-            string user = HttpContext.User.Identity.Name;
-            string type = uploadedFile.ContentType.Substring(0, uploadedFile.ContentType.IndexOf('/'));
-            if (uploadedFile != null&&type=="image")
-            {
-                string path = "/gallery/" + (service.LastId()+1).ToString()+"."+uploadedFile.ContentType.Substring((uploadedFile.ContentType.IndexOf('/')+1), uploadedFile.ContentType.Length- uploadedFile.ContentType.IndexOf('/')-1);
-                var FileName = uploadedFile.FileName.Trim('"');
-                using (var fileStream = new System.IO.FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                if (title == null)
                 {
-                    await uploadedFile.CopyToAsync(fileStream);
+                    title = "No name";
                 }
-                service.SetImage(title, Tags, path, user);
+                if (Tags == null)
+                {
+                    Tags = "";
+                }
+                string user = HttpContext.User.Identity.Name;
+                string type = uploadedFile.ContentType.Substring(0, uploadedFile.ContentType.IndexOf('/'));
+                if (uploadedFile != null && type == "image")
+                {
+                    string path = "/gallery/" + (service.LastId() + 1).ToString() + "." + uploadedFile.ContentType.Substring((uploadedFile.ContentType.IndexOf('/') + 1), uploadedFile.ContentType.Length - uploadedFile.ContentType.IndexOf('/') - 1);
+                    var FileName = uploadedFile.FileName.Trim('"');
+                    using (var fileStream = new System.IO.FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                    {
+                        await uploadedFile.CopyToAsync(fileStream);
+                    }
+                    service.SetImage(title, Tags, path, user);
+                }
             }
             return RedirectToAction("Index", "ImageGallery");
         }

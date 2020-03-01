@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authentication;
 
 namespace ImageGallery.Controllers
 {
-    [Authorize(Roles = "Admin")]
+
     public class AdminController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
@@ -28,6 +28,7 @@ namespace ImageGallery.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             return View(_userManager.Users);
@@ -39,27 +40,48 @@ namespace ImageGallery.Controllers
         {
             if (ModelState.IsValid)
             {
-                AppUser user = new AppUser
+                if (EmailIsUnique(model.Email))
                 {
-                    UserName = model.Name,
-                    Email = model.Email
-                };
-                IdentityResult identityResult = await _userManager.CreateAsync(user, model.Password);
-                if (identityResult.Succeeded)
-                {
-                    return RedirectToAction("Index");
+                    AppUser user = new AppUser
+                    {
+                        UserName = model.Name,
+                        Email = model.Email
+                    };
+                    IdentityResult identityResult = await _userManager.CreateAsync(user, model.Password);
+                    if (identityResult.Succeeded)
+                    {
+                        return RedirectToAction("Login", "Account");
+                    }
+                    else 
+                    {
+                        foreach (IdentityError identityError in identityResult.Errors)
+                        {
+                            ModelState.AddModelError(identityError.Code + " ", identityError.Description);
+                        }
+                    }
                 }
                 else
                 {
-                    foreach (IdentityError identityError in identityResult.Errors)
-                    {
-                        ModelState.AddModelError(identityError.Code +" ", identityError.Description);
-                    }
+                    ModelState.AddModelError("", "Email must be unique, try another email");
                 }
+            }
+            else
+            {
+                ModelState.AddModelError("", "Model state is not valid");
             }
             return View(model);
         }
+
+        private bool EmailIsUnique(string email)
+        {
+            var user = _userManager.FindByEmailAsync(email);
+            if (_userManager.FindByEmailAsync(email).Result == null)
+                return true;
+            return false;
+        }
+
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(string id)
         {
             AppUser user = await _userManager.FindByIdAsync(id);
@@ -89,7 +111,7 @@ namespace ImageGallery.Controllers
                 ModelState.AddModelError("", error.Description);
             }
         }
-
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(string id)
         {
             AppUser user = await _userManager.FindByIdAsync(id);
@@ -102,6 +124,7 @@ namespace ImageGallery.Controllers
                 return RedirectToAction("Index");
             }
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Edit(string id, string email, string password)
         {
