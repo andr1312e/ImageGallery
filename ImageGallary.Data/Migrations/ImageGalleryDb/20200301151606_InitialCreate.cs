@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace ImageGallary.Data.Migrations
+namespace ImageGallery.Data.Migrations.ImageGalleryDb
 {
     public partial class InitialCreate : Migration
     {

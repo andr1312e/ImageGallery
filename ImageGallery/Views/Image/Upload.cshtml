@@ -2,16 +2,16 @@
 @using ImageGallery.Controllers
 <div class="bg-primary m-1 p-1 text-white"><h4>Upload new image</h4></div>
 <div class="container body-content ">
-            <form asp-action="AddFile" asp-controller="Image" method="post" enctype="multipart/form-data">
-            <div class="form-group">
+    <form asp-action="AddFile" asp-controller="Image" method="post" enctype="multipart/form-data">
+        <div class="form-group">
             <label asp-for="Title"></label>
             <input asp-for="Title" class="form-control" />
         </div>
-            <div class="form-group">
+        <div class="form-group">
             <label asp-for="Tags"></label>
             <input asp-for="Tags" class="form-control" />
         </div>
-            <div>
+        <div>
             <label class="btn btn-file">
                 <input type="file" name="uploadedFile" id="uploadedFile" style="display: marker" />
             </label>
@@ -21,6 +21,5 @@
                 <input type="submit" id="btn-upload" class="btn btn-info" />
             </label>
         </div>
-        </form>
+    </form>
 </div>
-

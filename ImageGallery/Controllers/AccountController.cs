@@ -60,42 +60,48 @@ namespace ImageGallery.Controllers
         public async Task<IActionResult> Edit(string id, string Email, string password)
         {
             AppUser user = await _userManager.FindByIdAsync(id);
-            if (user != null)
+            if (password != null)
             {
-                user.Email = Email;
-                IdentityResult validEmail = await _userValidator.ValidateAsync(_userManager, user);
-                if (!validEmail.Succeeded)
+                if (user != null)
                 {
-                    AddErrorsFromResult(validEmail);
-                }
-                IdentityResult validPass = null;
-                if (password != null && password.Length >= 1)
-                {
-                    validPass = await _passwordValidator.ValidateAsync(_userManager, user, password);
-                }
-                if (validPass.Succeeded)
-                {
-                    user.PasswordHash = _passwordHasher.HashPassword(user, password);
-                }
-                if ((validEmail.Succeeded && validPass == null) || (validEmail.Succeeded && password != string.Empty && validPass.Succeeded))
-                {
-                    IdentityResult result = await _userManager.UpdateAsync(user);
-                    if (result.Succeeded)
+                    user.Email = Email;
+                    IdentityResult validEmail = await _userValidator.ValidateAsync(_userManager, user);
+                    if (!validEmail.Succeeded)
                     {
-                        return RedirectToAction("Index", "ImageGallery");
+                        AddErrorsFromResult(validEmail);
                     }
-                    else
+                    IdentityResult validPass = null;
+                    if (password != null && password.Length >= 1)
                     {
-                        AddErrorsFromResult(result);
+                        validPass = await _passwordValidator.ValidateAsync(_userManager, user, password);
                     }
+                    if (validPass.Succeeded)
+                    {
+                        user.PasswordHash = _passwordHasher.HashPassword(user, password);
+                    }
+                    if ((validEmail.Succeeded && validPass == null) || (validEmail.Succeeded && password != string.Empty && validPass.Succeeded))
+                    {
+                        IdentityResult result = await _userManager.UpdateAsync(user);
+                        if (result.Succeeded)
+                        {
+                            return RedirectToAction("Index", "ImageGallery");
+                        }
+                        else
+                        {
+                            AddErrorsFromResult(result);
+                        }
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "User Not Found");
                 }
             }
             else
             {
-                ModelState.AddModelError("", "User Not Found");
+                ModelState.AddModelError("", "Password cannot be null");
             }
             return View(user);
-
         }
         private void AddErrorsFromResult(IdentityResult result)
         {
