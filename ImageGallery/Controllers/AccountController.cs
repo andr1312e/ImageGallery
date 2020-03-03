@@ -36,9 +36,9 @@ namespace ImageGallery.Controllers
         [AllowAnonymous]
         public IActionResult Login(string returnUrl)
         {
-            if (returnUrl!=null&&returnUrl.Contains("FogotPassword"))
+            if (returnUrl=="/Account/ResetPassword")
             {
-                return RedirectToAction("FogotPassword");
+                return View("ResetPassword");
             }
             ViewBag.returnUrl = returnUrl;
             return View();
@@ -137,8 +137,70 @@ namespace ImageGallery.Controllers
             }
             return View(details);
         }
-        public async Task<IActionResult> FogotPassword(string Name, string Email, string Password)
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ViewResult ResetPassword(string returnUrl)
         {
+            ViewBag.returnUrl = returnUrl;
+            return View();
+        }
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword(UserViewModel RestoreUserData, string returnUrl)
+        {
+            if (RestoreUserData.Name != null)
+            {
+                AppUser user = await _userManager.FindByNameAsync(RestoreUserData.Name);
+                if (user != null)
+                {
+                    if (RestoreUserData.Email != null)
+                    {
+                        if (user.Email == RestoreUserData.Email)
+                        {
+
+                            IdentityResult validPass = null;
+                            if (RestoreUserData.Password != null && RestoreUserData.Password.Length >= 1)
+                            {
+                                validPass = await _passwordValidator.ValidateAsync(_userManager, user, RestoreUserData.Password);
+                            }
+                            if (validPass.Succeeded)
+                            {
+                                user.PasswordHash = _passwordHasher.HashPassword(user, RestoreUserData.Password);
+                            }
+                            if (validPass.Succeeded)
+                            {
+                                IdentityResult result = await _userManager.UpdateAsync(user);
+                                if (result.Succeeded)
+                                {
+                                    return RedirectToAction("Index", "ImageGallery");
+                                }
+                                else
+                                {
+                                    AddErrorsFromResult(result);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            ModelState.AddModelError(nameof(RestoreUserData.Email), "This email do not belong this UserName");
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(nameof(RestoreUserData.Email), "Invalid Email");
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError(nameof(RestoreUserData.Name), "User not exist");
+                }
+            }
+            else
+            {
+                ModelState.AddModelError(nameof(RestoreUserData.Name), "Invalid UserName");
+            }
+            ViewBag.returnUrl = returnUrl;
             return View();
         }
     }

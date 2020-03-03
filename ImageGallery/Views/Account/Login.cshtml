@@ -14,5 +14,6 @@
         <input asp-for="Password" class="form-control" />
     </div>
     <button class="btn btn-primary" formmethod="post" type="submit">Log in</button>
-    <button class="btn btn-secondary" asp-action="FogotPassword" type="submit">Fogot Password</button>
+    <button class="btn btn-secondary" asp-action="ResetPassword" asp-controller="Account" formmethod="none" >Fogot Password</button>
 </form>
+
