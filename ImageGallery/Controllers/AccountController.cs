@@ -36,10 +36,6 @@ namespace ImageGallery.Controllers
         [AllowAnonymous]
         public IActionResult Login(string returnUrl)
         {
-            if (returnUrl=="/Account/ResetPassword")
-            {
-                return View("ResetPassword");
-            }
             ViewBag.returnUrl = returnUrl;
             return View();
         }
@@ -139,9 +135,9 @@ namespace ImageGallery.Controllers
         }
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ViewResult ResetPassword(string returnUrl)
+        [Route("Account/ResetPassword")]
+        public ViewResult ResetPassword()
         {
-            ViewBag.returnUrl = returnUrl;
             return View();
         }
         [HttpPost]
