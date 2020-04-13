@@ -12,6 +12,7 @@ namespace ImageGalleryUsers.Models
         [Required]
         public string Email { set; get; }
         [Required]
+        [DataType(DataType.Password)]
         public string Password { set; get; }
     }
 }

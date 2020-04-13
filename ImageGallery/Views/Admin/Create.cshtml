@@ -1,5 +1,5 @@
 ﻿@model ImageGalleryUsers.Models.UserViewModel
-
+@inject Microsoft.Extensions.Options.IOptions<ImageGallery.Data.ReCapcha.AppOptions> AppOptions
 <div class="bg-primary m-1 p-1 text-white"><h4>Create user</h4></div>
 <div asp-validation-summary="All" class="text-danger"></div>
 <form asp-action="Create" method="post">
@@ -15,6 +15,14 @@
         <label asp-for="Password"></label>
         <input asp-for="Password" class="form-control" />
     </div>
+    <div class="form-group">
+        <div class="g-recaptcha" data-sitekey="@AppOptions.Value.ReCaptcha.SiteKey"></div>
+        @Html.ValidationMessage("ReCaptchaError", new { @class = "text-danger" })
+    </div>
     <button type="submit" class="btn btn-primary">Create</button>
     <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    @section Scripts {
+        @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+        <script src="https://www.google.com/recaptcha/api.js"></script>
+    }
 </form>

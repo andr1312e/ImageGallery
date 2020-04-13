@@ -1,20 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http.Headers;
+﻿using System.IO;
 using System.Threading.Tasks;
 using ImageGallary.Data;
-using ImageGallery.Models;
-using ImageGalleryServises;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Configuration;
-using ImageGallery.Models;
-using Microsoft.Extensions.Logging;
 
 namespace ImageGallery.Controllers
 {
@@ -27,14 +16,8 @@ namespace ImageGallery.Controllers
             service = _service;
             _appEnvironment = appEnvironment;
         }
-        public IActionResult Upload(/*[FromForm] string title, [FromForm] string Tags, [FromForm] IFormFile uploadedFile*/)
-        {//////CHECK
-          //  var model = new UploadModel()
-          //  {
-          //      Title = title,
-          //      Tags = Tags,
-          //      uploadedFile = uploadedFile
-          //};
+        public IActionResult Upload()
+        {
           return View();
         }
 
@@ -94,7 +77,6 @@ namespace ImageGallery.Controllers
                 if (type == "image")
                 {
                     var oldpath = service.GetById(id).Url;
-                    var FileName = uploadedFile.FileName.Trim('"');
                     System.IO.File.Delete(_appEnvironment.WebRootPath + oldpath);
                     string path = "/gallery/" + (id + 1).ToString() + "." + uploadedFile.ContentType.Substring((uploadedFile.ContentType.IndexOf('/') + 1), uploadedFile.ContentType.Length - uploadedFile.ContentType.IndexOf('/') - 1);
                     using (var fileStream = new System.IO.FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))

@@ -9,6 +9,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Web;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
+using ImageGallery.Infrastrucure;
+using System.Drawing.Imaging;
+using ImageGallery.Data;
 
 namespace ImageGallery.Controllers
 {
@@ -17,59 +21,75 @@ namespace ImageGallery.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private IUserValidator<AppUser> _userValidator;
-        private IPasswordValidator<AppUser> _passwordValidator;
-        private IPasswordHasher<AppUser> _passwordHasher;
-        private readonly SignInManager<AppUser> _signInManager;
-        public AdminController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IUserValidator<AppUser> userValidator, IPasswordHasher<AppUser> passwordHasher, IPasswordValidator<AppUser> passwordValidator)
+        private readonly IPasswordValidator<AppUser> _passwordValidator;
+        private readonly IPasswordHasher<AppUser> _passwordHasher;
+        private readonly IRecaptchaService _recaptcha;
+
+        public SignInManager<AppUser> SignInManager { get; }
+
+        public AdminController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IUserValidator<AppUser> userValidator, IPasswordHasher<AppUser> passwordHasher, IPasswordValidator<AppUser> passwordValidator, IRecaptchaService recaptcha)
         {
             _passwordHasher = passwordHasher;
             _passwordValidator = passwordValidator;
             _userValidator = userValidator;
             _userManager = userManager;
-            _signInManager = signInManager;
+            SignInManager = signInManager;
+            _recaptcha = recaptcha;
         }
         [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             return View(_userManager.Users);
         }
+
+
         public IActionResult Create() => View();
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Create(UserViewModel model)
         {
-            if (ModelState.IsValid)
+            var captchaResponse = await _recaptcha.Validate(Request.Form);
+            if (captchaResponse.Success)
             {
-                if (EmailIsUnique(model.Email))
+                if (ModelState.IsValid)
                 {
-                    AppUser user = new AppUser
+                    if (EmailIsUnique(model.Email))
                     {
-                        UserName = model.Name,
-                        Email = model.Email
-                    };
-                    IdentityResult identityResult = await _userManager.CreateAsync(user, model.Password);
-                    if (identityResult.Succeeded)
-                    {
-                        return RedirectToAction("Login", "Account");
-                    }
-                    else 
-                    {
-                        foreach (IdentityError identityError in identityResult.Errors)
+                        AppUser user = new AppUser
                         {
-                            ModelState.AddModelError(identityError.Code + " ", identityError.Description);
+                            UserName = model.Name,
+                            Email = model.Email
+                        };
+                        IdentityResult identityResult = await _userManager.CreateAsync(user, model.Password);
+                        if (identityResult.Succeeded)
+                        {
+                            return RedirectToAction("Login", "Account");
                         }
+                        else
+                        {
+                            foreach (IdentityError identityError in identityResult.Errors)
+                            {
+                                ModelState.AddModelError(identityError.Code + " ", identityError.Description);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Email must be unique, try another email");
                     }
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Email must be unique, try another email");
+                    ModelState.AddModelError("", "Model state is not valid");
                 }
+                return View(model);
             }
             else
             {
-                ModelState.AddModelError("", "Model state is not valid");
+                ModelState.AddModelError("reCaptchaError", "reCAPTCHA error occured. Please try again.");
+                return View(model);
             }
-            return View(model);
+
         }
 
         private bool EmailIsUnique(string email)

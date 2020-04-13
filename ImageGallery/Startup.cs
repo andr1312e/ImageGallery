@@ -16,7 +16,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using ImageGallery.Infrastrucure;
-
+using ImageGallery.Data.ReCapcha;
+using ImageGallery.Data;
 
 namespace ImageGallery
 {
@@ -53,6 +54,8 @@ namespace ImageGallery
             services.AddScoped<IImage, Service>();
             services.AddMvc(options => options.EnableEndpointRouting = false);
             services.AddMemoryCache();
+            services.Configure<AppOptions>(Configuration);
+            services.AddSingleton<IRecaptchaService, GoogleRecaptchaService>();
             services.AddSession();
         }
 

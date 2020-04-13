@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using ImageGallery.Models;
 using ImageGallary.Data.Model;
-using ImageGallary.Data.Data;
 using ImageGallary.Data;
-using Microsoft.AspNetCore.Identity;
-using CustomIdentityApp.Models;
 
 namespace ImageGallery.Controllers
 {
@@ -32,20 +26,7 @@ namespace ImageGallery.Controllers
             var image = _ImageService.GetById(id);
             if (image != null)
             {
-                string userName = "Аноним";
-                if (user != null)
-                {
-                    if (user.Identity.Name == image.UserName)
-                        userName = image.UserName;
-                }
-                if (user.IsInRole("Admin"))
-                {
-                    userName = "Admin";
-                }
-                string ss;
-                var c = image.Tags.Aggregate("", (str, obj) => str + obj.Description + ",");
-                ss = string.Join(",", image.Tags.ToList());
-               
+                string userName=_ImageService.SetImageAuthorInDetail(user.Identity.Name, image.UserName, user.IsInRole("Admin"));
                 var model = new GalleryImage()
                 {
                     Id = id,
